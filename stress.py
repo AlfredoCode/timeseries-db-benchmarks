@@ -20,7 +20,7 @@ lat_lock = asyncio.Lock()
 
 
 async def send_batch(session, batch, batch_id, use_no_sync):
-    print(f"➡️  Sending batch {batch_id} ({len(batch)} points)")
+    print(f"Sending batch {batch_id} ({len(batch)} points)")
 
     write_params = {
         "org": ORG_ID,
@@ -43,9 +43,9 @@ async def send_batch(session, batch, batch_id, use_no_sync):
 
         if resp.status != 204:
             text = await resp.text()
-            print(f"❌ Batch {batch_id} failed ({elapsed_ms:.2f} ms): {resp.status} {text}")
+            print(f"Batch {batch_id} failed ({elapsed_ms:.2f} ms): {resp.status} {text}")
         else:
-            print(f"✅ Batch {batch_id} ACK in {elapsed_ms:.2f} ms")
+            print(f"Batch {batch_id} ACK in {elapsed_ms:.2f} ms")
 
 
 async def main():
@@ -86,9 +86,9 @@ async def main():
     rate = len(dataset) / elapsed
 
     print(f"\n--- Results (no_sync={args.no_sync}) ---")
-    print(f"🔥 Sent {len(dataset):,} points")
-    print(f"⏱  Time: {elapsed:.2f}s")
-    print(f"🚀 Rate: {rate:,.0f} points/sec")
+    print(f"Sent {len(dataset):,} points")
+    print(f"Time: {elapsed:.2f}s")
+    print(f"Rate: {rate:,.0f} points/sec")
 
     async with lat_lock:
         if not latencies_ms:
@@ -101,7 +101,7 @@ async def main():
             idx = min(idx, len(latencies_ms) - 1)
             return latencies_ms[idx]
 
-        print("\n📊 Write latency (batch ACK):")
+        print("\nWrite latency (batch ACK):")
         print(f"P50: {pct(0.50):.2f} ms")
         print(f"P95: {pct(0.95):.2f} ms")
         print(f"P99: {pct(0.99):.2f} ms")

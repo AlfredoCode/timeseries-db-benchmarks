@@ -46,10 +46,10 @@ async def send_batch(conn, batch, batch_id):
             records.append((time_dt, objID, val))
 
         except Exception as e:
-            print(f"❌ Failed to parse line: {line} ({e})")
+            print(f"Failed to parse line: {line} ({e})")
 
     if not records:
-        print(f"⚠️  Batch {batch_id} has no valid records, skipping")
+        print(f"Batch {batch_id} has no valid records, skipping")
         return
 
     # Prepare multi-row insert statement dynamically
@@ -65,10 +65,10 @@ async def send_batch(conn, batch, batch_id):
         elapsed_ms = (time.perf_counter() - start) * 1000
         async with lat_lock:
             latencies_ms.append(elapsed_ms)
-        print(f"✅ Batch {batch_id} ACK in {elapsed_ms:.2f} ms")
+        print(f"Batch {batch_id} ACK in {elapsed_ms:.2f} ms")
     except Exception as e:
         elapsed_ms = (time.perf_counter() - start) * 1000
-        print(f"❌ Batch {batch_id} failed ({elapsed_ms:.2f} ms): {e}")
+        print(f"Batch {batch_id} failed ({elapsed_ms:.2f} ms): {e}")
 
 async def main():
     parser = argparse.ArgumentParser()
@@ -113,9 +113,9 @@ async def main():
     rate = len(dataset) / elapsed
 
     print(f"\n--- Results ---")
-    print(f"🔥 Sent {len(dataset):,} points")
-    print(f"⏱  Time: {elapsed:.2f}s")
-    print(f"🚀 Rate: {rate:,.0f} points/sec")
+    print(f"Sent {len(dataset):,} points")
+    print(f"Time: {elapsed:.2f}s")
+    print(f"Rate: {rate:,.0f} points/sec")
 
     async with lat_lock:
         if not latencies_ms:
@@ -128,7 +128,7 @@ async def main():
             idx = min(idx, len(latencies_ms) - 1)
             return latencies_ms[idx]
 
-        print("\n📊 Write latency (batch ACK):")
+        print("\nWrite latency (batch ACK):")
         print(f"P50: {pct(0.50):.2f} ms")
         print(f"P95: {pct(0.95):.2f} ms")
         print(f"P99: {pct(0.99):.2f} ms")
